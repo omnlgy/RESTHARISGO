@@ -1,9 +1,9 @@
 package service
 
 import (
+	"github.com/omnlgy/RESTHARISGO/internal/domain"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
 	"github.com/omnlgy/RESTHARISGO/internal/repository"
-	"github.com/omnlgy/RESTHARISGO/internal/domain"
 )
 
 type DepartmentService struct {

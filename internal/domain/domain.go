@@ -6,3 +6,10 @@ type DepartmentRepository interface {
 	Update(department *models.Department) (models.Department, error)
 	Delete(id uint) error
 }
+
+type PositionRepository interface {
+	Create(position *models.Position) (models.Position, error)
+	GetAll() ([]models.Position, error)
+	Update(position *models.Position) (models.Position, error)
+	Delete(id uint) error
+}

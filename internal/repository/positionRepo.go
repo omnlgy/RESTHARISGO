@@ -5,13 +5,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type PositionRepository interface {
-	Create(position *models.Position) error
-	GetAll() ([]models.Position, error)
-	Update(position *models.Position) error
-	Delete(id uint) error
-}
-
 type positionRepository struct {
 	db *gorm.DB
 }
@@ -22,8 +15,8 @@ func NewPositionRepository(db *gorm.DB) *positionRepository {
 	}
 }
 
-func (r *positionRepository) Create(position *models.Position) error {
-	return r.db.Create(position).Error
+func (r *positionRepository) Create(position *models.Position) (models.Position, error) {
+	return *position, r.db.Create(position).Error
 }
 
 func (r *positionRepository) GetAll() ([]models.Position, error) {
@@ -31,8 +24,8 @@ func (r *positionRepository) GetAll() ([]models.Position, error) {
 	return positions, r.db.Find(&positions).Error
 }
 
-func (r *positionRepository) Update(position *models.Position) error {
-	return r.db.Save(position).Error
+func (r *positionRepository) Update(position *models.Position) (models.Position, error) {
+	return *position, r.db.Save(position).Error
 }
 
 func (r *positionRepository) Delete(id uint) error {

@@ -13,3 +13,12 @@ func DepartmentRoutes(router *gin.Engine, controller *controller.DepartmentContr
 	apiDepartments.PUT("/:id", controller.UpdateDepartment)
 	apiDepartments.DELETE("/:id", controller.DeleteDepartment)
 }
+
+func PositionRoutes(router *gin.Engine, controller *controller.PositionController) {
+	apiDepartments := router.Group("/api/positions")
+
+	apiDepartments.GET("/", controller.GetPositions)
+	apiDepartments.POST("/", controller.CreatePosition)
+	apiDepartments.PUT("/:id", controller.UpdatePosition)
+	apiDepartments.DELETE("/:id", controller.DeletePosition)
+}
