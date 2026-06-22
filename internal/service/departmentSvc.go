@@ -3,13 +3,14 @@ package service
 import (
 	"github.com/omnlgy/RESTHARISGO/internal/models"
 	"github.com/omnlgy/RESTHARISGO/internal/repository"
+	"github.com/omnlgy/RESTHARISGO/internal/domain"
 )
 
 type DepartmentService struct {
 	repo repository.DepartmentRepository
 }
 
-func NewDepartmentService(repo repository.DepartmentRepository) *DepartmentService {
+func NewDepartmentService(repo domain.DepartmentRepository) *DepartmentService {
 	return &DepartmentService{
 		repo: repo,
 	}
