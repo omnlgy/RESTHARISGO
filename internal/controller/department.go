@@ -1,10 +1,12 @@
 package controller
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
+	"github.com/omnlgy/RESTHARISGO/internal/repository"
 	"github.com/omnlgy/RESTHARISGO/internal/service"
 )
 
@@ -87,6 +89,10 @@ func (c *DepartmentController) UpdateDepartment(ctx *gin.Context) {
 	updatedDepartment, err := c.service.UpdateDepartment(department)
 
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			ctx.JSON(404, gin.H{"error": "Department not found"})
+			return
+		}
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
@@ -106,6 +112,10 @@ func (c *DepartmentController) DeleteDepartment(ctx *gin.Context) {
 
 	err = c.service.DeleteDepartment(uint(departmentID))
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			ctx.JSON(404, gin.H{"error": "Department not found"})
+			return
+		}
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}

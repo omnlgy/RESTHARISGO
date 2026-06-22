@@ -1,9 +1,14 @@
 package repository
 
 import (
+	"errors"
+
 	"github.com/omnlgy/RESTHARISGO/internal/models"
 	"gorm.io/gorm"
 )
+
+// ErrNotFound is returned when a record is not found.
+var ErrNotFound = errors.New("record not found")
 
 type departmentRepository struct {
 	db *gorm.DB
@@ -20,14 +25,31 @@ func (r *departmentRepository) GetAll() ([]models.Department, error) {
 	return departments, r.db.Find(&departments).Error
 }
 
+func (r *departmentRepository) GetByID(id uint) (models.Department, error) {
+	var department models.Department
+	err := r.db.First(&department, id).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return models.Department{}, ErrNotFound
+	}
+	return department, err
+}
+
 func (r *departmentRepository) Create(department *models.Department) (models.Department, error) {
 	return *department, r.db.Create(department).Error
 }
 
 func (r *departmentRepository) Update(department *models.Department) (models.Department, error) {
+	// Check existence first
+	if _, err := r.GetByID(department.ID); err != nil {
+		return models.Department{}, err
+	}
 	return *department, r.db.Save(department).Error
 }
 
 func (r *departmentRepository) Delete(id uint) error {
+	// Check existence first
+	if _, err := r.GetByID(id); err != nil {
+		return err
+	}
 	return r.db.Delete(&models.Department{}, id).Error
 }

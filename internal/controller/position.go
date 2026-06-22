@@ -1,10 +1,12 @@
 package controller
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
+	"github.com/omnlgy/RESTHARISGO/internal/repository"
 	"github.com/omnlgy/RESTHARISGO/internal/service"
 )
 
@@ -50,7 +52,7 @@ func (c *PositionController) CreatePosition(ctx *gin.Context) {
 		BaseSalary: body.BaseSalary,
 	}
 
-	createdDepartment, err := c.service.CreatePosition(position)
+	createdPosition, err := c.service.CreatePosition(position)
 
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
@@ -58,8 +60,8 @@ func (c *PositionController) CreatePosition(ctx *gin.Context) {
 	}
 
 	ctx.JSON(201, gin.H{
-		"message": "Department created successfully",
-		"data":    createdDepartment,
+		"message": "Position created successfully",
+		"data":    createdPosition,
 	})
 }
 
@@ -87,6 +89,10 @@ func (c *PositionController) UpdatePosition(ctx *gin.Context) {
 	updatedPosition, err := c.service.UpdatePosition(position)
 
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			ctx.JSON(404, gin.H{"error": "Position not found"})
+			return
+		}
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
@@ -100,17 +106,21 @@ func (c *PositionController) UpdatePosition(ctx *gin.Context) {
 func (c *PositionController) DeletePosition(ctx *gin.Context) {
 	positionID, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
 	if err != nil {
-		ctx.JSON(400, gin.H{"error": "Invalid department ID"})
+		ctx.JSON(400, gin.H{"error": "Invalid position ID"})
 		return
 	}
 
 	err = c.service.DeletePosition(uint(positionID))
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			ctx.JSON(404, gin.H{"error": "Position not found"})
+			return
+		}
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
 	ctx.JSON(200, gin.H{
-		"message": "Posetion deleted successfully",
+		"message": "Position deleted successfully",
 	})
 }

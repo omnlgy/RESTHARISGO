@@ -20,23 +20,23 @@ func (s *PositionService) GetPositions() ([]models.Position, error) {
 }
 
 func (s *PositionService) CreatePosition(position *models.Position) (models.Position, error) {
-	createdDepartment, err := s.repo.Create(position)
+	createdPosition, err := s.repo.Create(position)
 
 	if err != nil {
 		return models.Position{}, err
 	}
 
-	return createdDepartment, nil
+	return createdPosition, nil
 }
 
 func (s *PositionService) UpdatePosition(position *models.Position) (models.Position, error) {
-	updatedDepartment, err := s.repo.Update(position)
+	updatedPosition, err := s.repo.Update(position)
 
 	if err != nil {
 		return models.Position{}, err
 	}
 
-	return updatedDepartment, nil
+	return updatedPosition, nil
 }
 
 func (s *PositionService) DeletePosition(id uint) error {
