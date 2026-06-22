@@ -8,8 +8,8 @@ import (
 	"github.com/omnlgy/RESTHARISGO/internal/service"
 )
 
-type CreateDepartmentRequest struct {
-	Title string `json:"title" binding:"required"`
+type CreatePositionRequest struct {
+	Title      string  `json:"title" binding:"required"`
 	BaseSalary float64 `json:"baseSalary" binding:"required"`
 }
 
@@ -38,7 +38,7 @@ func (c *PositionController) GetPositions(ctx *gin.Context) {
 }
 
 func (c *PositionController) CreatePosition(ctx *gin.Context) {
-	var body CreateDepartmentRequest
+	var body CreatePositionRequest
 
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
@@ -46,8 +46,8 @@ func (c *PositionController) CreatePosition(ctx *gin.Context) {
 	}
 
 	position := &models.Position{
-		Title: body.title,
-		BaseSalary: body.baseSalary,
+		Title:      body.Title,
+		BaseSalary: body.BaseSalary,
 	}
 
 	createdDepartment, err := c.service.CreatePosition(position)
@@ -64,7 +64,7 @@ func (c *PositionController) CreatePosition(ctx *gin.Context) {
 }
 
 func (c *PositionController) UpdatePosition(ctx *gin.Context) {
-	var body CreateDepartmentRequest
+	var body CreatePositionRequest
 	var PositionID uint64
 
 	PositionID, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
@@ -79,9 +79,9 @@ func (c *PositionController) UpdatePosition(ctx *gin.Context) {
 	}
 
 	position := &models.Position{
-		ID:   uint(PositionID),
-		Title: body.title,
-		BaseSalary: body.baseSalary,
+		ID:         uint(PositionID),
+		Title:      body.Title,
+		BaseSalary: body.BaseSalary,
 	}
 
 	updatedPosition, err := c.service.UpdatePosition(position)

@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/omnlgy/RESTHARISGO/internal/models"
+
 type DepartmentRepository interface {
 	Create(department *models.Department) (models.Department, error)
 	GetAll() ([]models.Department, error)

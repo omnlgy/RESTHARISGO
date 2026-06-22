@@ -3,11 +3,10 @@ package service
 import (
 	"github.com/omnlgy/RESTHARISGO/internal/domain"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
-	"github.com/omnlgy/RESTHARISGO/internal/repository"
 )
 
 type DepartmentService struct {
-	repo repository.DepartmentRepository
+	repo domain.DepartmentRepository
 }
 
 func NewDepartmentService(repo domain.DepartmentRepository) *DepartmentService {
