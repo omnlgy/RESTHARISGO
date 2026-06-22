@@ -22,3 +22,9 @@ func PositionRoutes(router *gin.Engine, controller *controller.PositionControlle
 	apiDepartments.PUT("/:id", controller.UpdatePosition)
 	apiDepartments.DELETE("/:id", controller.DeletePosition)
 }
+
+func EmployeeRoutes(router *gin.Engine, controller *controller.EmployeeController) {
+	apiEmployees := router.Group("/api/employees")
+
+	apiEmployees.POST("/", controller.CreateEmployee)
+}

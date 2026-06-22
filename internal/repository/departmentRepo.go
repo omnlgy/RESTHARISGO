@@ -39,17 +39,21 @@ func (r *departmentRepository) Create(department *models.Department) (models.Dep
 }
 
 func (r *departmentRepository) Update(department *models.Department) (models.Department, error) {
-	// Check existence first
-	if _, err := r.GetByID(department.ID); err != nil {
-		return models.Department{}, err
+	result := r.db.Save(department)
+
+	if result.RowsAffected == 0 {
+		return models.Department{}, ErrNotFound
 	}
-	return *department, r.db.Save(department).Error
+
+	return *department, result.Error
 }
 
 func (r *departmentRepository) Delete(id uint) error {
-	// Check existence first
-	if _, err := r.GetByID(id); err != nil {
-		return err
+	result := r.db.Delete(&models.Department{}, id)
+
+	if result.RowsAffected == 0 {
+		return ErrNotFound
 	}
-	return r.db.Delete(&models.Department{}, id).Error
+
+	return result.Error
 }

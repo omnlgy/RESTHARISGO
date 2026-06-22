@@ -17,3 +17,11 @@ type PositionRepository interface {
 	Update(position *models.Position) (models.Position, error)
 	Delete(id uint) error
 }
+
+type EmployeeRepository interface {
+	Create(employee *models.Employee) (models.Employee, error)
+	GetAll() ([]models.Employee, error)
+	GetByID(id uint) (models.Employee, error)
+	Update(employee *models.Employee) (models.Employee, error)
+	Delete(id uint) error
+}

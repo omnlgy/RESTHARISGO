@@ -19,6 +19,10 @@ func (s *DepartmentService) GetDepartments() ([]models.Department, error) {
 	return s.repo.GetAll()
 }
 
+func (s *DepartmentService) GetDepartmentByID(id uint) (models.Department, error) {
+	return s.repo.GetByID(id)
+}
+
 func (s *DepartmentService) CreateDepartment(department *models.Department) (models.Department, error) {
 	createdDepartment, err := s.repo.Create(department)
 

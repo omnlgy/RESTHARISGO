@@ -19,6 +19,10 @@ func (s *PositionService) GetPositions() ([]models.Position, error) {
 	return s.repo.GetAll()
 }
 
+func (s *PositionService) GetPositionByID(id uint) (models.Position, error) {
+	return s.repo.GetByID(id)
+}
+
 func (s *PositionService) CreatePosition(position *models.Position) (models.Position, error) {
 	createdPosition, err := s.repo.Create(position)
 
