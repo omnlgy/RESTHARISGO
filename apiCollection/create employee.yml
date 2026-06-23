@@ -1,0 +1,26 @@
+info:
+  name: create employee
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: http://localhost:8080/api/employees/
+  body:
+    type: json
+    data: |-
+      {
+        "nik": "1231231231",
+        "fullName": "ikbal",
+        "email": "ikbal1@m.com",
+        "departmentId": 2,
+        "positionId": 2,
+        "status": "ACTIVE"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

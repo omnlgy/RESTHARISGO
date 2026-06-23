@@ -20,7 +20,7 @@ type PositionRepository interface {
 
 type EmployeeRepository interface {
 	Create(employee *models.Employee) (models.Employee, error)
-	GetAll() ([]models.Employee, error)
+	GetAll(filter models.FilterEmployee) ([]models.Employee, error)
 	GetByID(id uint) (models.Employee, error)
 	Update(employee *models.Employee) (models.Employee, error)
 	Delete(id uint) error

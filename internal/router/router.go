@@ -27,4 +27,5 @@ func EmployeeRoutes(router *gin.Engine, controller *controller.EmployeeControlle
 	apiEmployees := router.Group("/api/employees")
 
 	apiEmployees.POST("/", controller.CreateEmployee)
+	apiEmployees.GET("/", controller.GetEmployees)
 }

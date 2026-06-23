@@ -54,4 +54,10 @@ func initRouter(server *gin.Engine, db *gorm.DB) {
 	svcPos := service.NewPositionService(repoPos)
 	ctrlPos := controller.NewPositionController(svcPos)
 	router.PositionRoutes(server, ctrlPos)
+
+	// Employee
+	repoEmp := repository.NewEmployeeRepository(db)
+	svcEmp := service.NewEmployeeService(repoEmp, svcDep, svcPos)
+	ctrlEmp := controller.NewEmployeeController(svcEmp)
+	router.EmployeeRoutes(server, ctrlEmp)
 }

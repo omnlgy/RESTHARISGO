@@ -20,15 +20,22 @@ func NewEmployeeService(repo domain.EmployeeRepository, deptSvc *DepartmentServi
 }
 
 func (s *EmployeeService) Add(employee *models.Employee) (models.Employee, error) {
-	_, err := s.deptSvc.GetDepartmentByID(employee.DepartmentID)
+	dept, err := s.deptSvc.GetDepartmentByID(employee.DepartmentID)
 	if err != nil {
 		return models.Employee{}, err
 	}
 
-	_, err = s.posSvc.GetPositionByID(employee.PositionID)
+	pos, err := s.posSvc.GetPositionByID(employee.PositionID)
 	if err != nil {
 		return models.Employee{}, err
 	}
+
+	employee.Department = dept
+	employee.Position = pos
 
 	return s.repo.Create(employee)
+}
+
+func (s *EmployeeService) GetEmployees(filter models.FilterEmployee) ([]models.Employee, error) {
+	return s.repo.GetAll(filter)
 }
