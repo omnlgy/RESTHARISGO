@@ -28,4 +28,6 @@ func EmployeeRoutes(router *gin.Engine, controller *controller.EmployeeControlle
 
 	apiEmployees.POST("/", controller.CreateEmployee)
 	apiEmployees.GET("/", controller.GetEmployees)
+	apiEmployees.DELETE("/:id", controller.DeleteEmployee)
+	apiEmployees.PUT("/:id", controller.UpdateEmployee)
 }

@@ -89,7 +89,7 @@ func (c *PositionController) UpdatePosition(ctx *gin.Context) {
 	updatedPosition, err := c.service.UpdatePosition(position)
 
 	if err != nil {
-		if errors.Is(err, repository.ErrNotFound) {
+		if errors.Is(err, repository.PositionNotFound) {
 			ctx.JSON(404, gin.H{"error": "Position not found"})
 			return
 		}
@@ -112,7 +112,7 @@ func (c *PositionController) DeletePosition(ctx *gin.Context) {
 
 	err = c.service.DeletePosition(uint(positionID))
 	if err != nil {
-		if errors.Is(err, repository.ErrNotFound) {
+		if errors.Is(err, repository.PositionNotFound) {
 			ctx.JSON(404, gin.H{"error": "Position not found"})
 			return
 		}

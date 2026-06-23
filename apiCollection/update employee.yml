@@ -1,0 +1,26 @@
+info:
+  name: update employee
+  type: http
+  seq: 11
+
+http:
+  method: PUT
+  url: http://localhost:8080/api/employees/9
+  body:
+    type: json
+    data: |-
+      {
+        "nik": "1231231231",
+        "fullName": "ikbal ed",
+        "email": "ikbal1@m.com",
+        "departmentId": 2,
+        "positionId": 10,
+        "status": "ACTIVE"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

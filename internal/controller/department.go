@@ -89,7 +89,7 @@ func (c *DepartmentController) UpdateDepartment(ctx *gin.Context) {
 	updatedDepartment, err := c.service.UpdateDepartment(department)
 
 	if err != nil {
-		if errors.Is(err, repository.ErrNotFound) {
+		if errors.Is(err, repository.DepartmentNotFound) {
 			ctx.JSON(404, gin.H{"error": "Department not found"})
 			return
 		}
@@ -112,7 +112,7 @@ func (c *DepartmentController) DeleteDepartment(ctx *gin.Context) {
 
 	err = c.service.DeleteDepartment(uint(departmentID))
 	if err != nil {
-		if errors.Is(err, repository.ErrNotFound) {
+		if errors.Is(err, repository.DepartmentNotFound) {
 			ctx.JSON(404, gin.H{"error": "Department not found"})
 			return
 		}

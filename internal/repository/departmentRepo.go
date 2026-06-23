@@ -7,8 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// ErrNotFound is returned when a record is not found.
-var ErrNotFound = errors.New("record not found")
+var DepartmentNotFound = errors.New("Department not found")
 
 type departmentRepository struct {
 	db *gorm.DB
@@ -29,7 +28,7 @@ func (r *departmentRepository) GetByID(id uint) (models.Department, error) {
 	var department models.Department
 	err := r.db.First(&department, id).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return models.Department{}, ErrNotFound
+		return models.Department{}, DepartmentNotFound
 	}
 	return department, err
 }
@@ -42,7 +41,7 @@ func (r *departmentRepository) Update(department *models.Department) (models.Dep
 	result := r.db.Save(department)
 
 	if result.RowsAffected == 0 {
-		return models.Department{}, ErrNotFound
+		return models.Department{}, DepartmentNotFound
 	}
 
 	return *department, result.Error
@@ -52,7 +51,7 @@ func (r *departmentRepository) Delete(id uint) error {
 	result := r.db.Delete(&models.Department{}, id)
 
 	if result.RowsAffected == 0 {
-		return ErrNotFound
+		return DepartmentNotFound
 	}
 
 	return result.Error

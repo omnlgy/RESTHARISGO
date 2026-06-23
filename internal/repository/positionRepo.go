@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var PositionNotFound = errors.New("Position not found")
+
 type positionRepository struct {
 	db *gorm.DB
 }
@@ -30,7 +32,7 @@ func (r *positionRepository) GetByID(id uint) (models.Position, error) {
 	var position models.Position
 	err := r.db.First(&position, id).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return models.Position{}, ErrNotFound
+		return models.Position{}, PositionNotFound
 	}
 	return position, err
 }

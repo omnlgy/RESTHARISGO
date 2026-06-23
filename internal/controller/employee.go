@@ -47,7 +47,7 @@ func (c *EmployeeController) CreateEmployee(ctx *gin.Context) {
 	}
 
 	if _, err := c.service.Add(employee); err != nil {
-		if errors.Is(err, repository.ErrNotFound) {
+		if errors.Is(err, repository.DepartmentNotFound) || errors.Is(err, repository.PositionNotFound) {
 			ctx.JSON(400, gin.H{"error": "Department or Position not found"})
 			return
 		}
@@ -81,5 +81,66 @@ func (c *EmployeeController) GetEmployees(ctx *gin.Context) {
 		"message": "Employees retrieved successfully",
 		"data":    employees,
 		"query":   filter,
+	})
+}
+
+func (c *EmployeeController) DeleteEmployee(ctx *gin.Context) {
+	employeeID, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(400, gin.H{"error": "Invalid employee ID"})
+		return
+	}
+
+	err = c.service.DeleteEmployee(uint(employeeID))
+	if err != nil {
+		if errors.Is(err, repository.EmployeeNotFound) {
+			ctx.JSON(404, gin.H{"error": "Employee not found"})
+			return
+		}
+		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, gin.H{
+		"message": "Employee deleted successfully",
+	})
+}
+
+func (c *EmployeeController) UpdateEmployee(ctx *gin.Context) {
+	employeeID, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(400, gin.H{"error": "Invalid employee ID"})
+		return
+	}
+
+	var body CreateEmployeeRequest
+
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	employee := &models.Employee{
+		ID:           uint(employeeID),
+		NIK:          body.NIK,
+		FullName:     body.FullName,
+		Email:        body.Email,
+		DepartmentID: body.DepartmentID,
+		PositionID:   body.PositionID,
+		Status:       body.Status,
+	}
+
+	if _, err := c.service.Update(employee); err != nil {
+		if errors.Is(err, repository.EmployeeNotFound) {
+			ctx.JSON(404, gin.H{"error": "Employee not found"})
+			return
+		}
+		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, gin.H{
+		"message": "Employee updated successfully",
+		"data":    employee,
 	})
 }

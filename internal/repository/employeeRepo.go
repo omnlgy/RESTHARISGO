@@ -5,6 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var EmployeeNotFound = gorm.ErrRecordNotFound
+
 type EmployeeRepository struct {
 	db *gorm.DB
 }
@@ -49,7 +51,7 @@ func (r *EmployeeRepository) GetAll(filter models.FilterEmployee) ([]models.Empl
 func (r *EmployeeRepository) Update(employee *models.Employee) (models.Employee, error) {
 	result := r.db.Save(employee)
 	if result.RowsAffected == 0 {
-		return models.Employee{}, ErrNotFound
+		return models.Employee{}, EmployeeNotFound
 	}
 	return *employee, result.Error
 }
@@ -57,7 +59,7 @@ func (r *EmployeeRepository) Update(employee *models.Employee) (models.Employee,
 func (r *EmployeeRepository) Delete(id uint) error {
 	result := r.db.Delete(&models.Employee{}, id)
 	if result.RowsAffected == 0 {
-		return ErrNotFound
+		return EmployeeNotFound
 	}
 	return result.Error
 }
