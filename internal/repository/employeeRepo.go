@@ -25,7 +25,7 @@ func (r *EmployeeRepository) Create(employee *models.Employee) (models.Employee,
 
 func (r *EmployeeRepository) GetByID(id uint) (models.Employee, error) {
 	var employee models.Employee
-	result := r.db.First(&employee, id)
+	result := r.db.Preload("Department").Preload("Position").First(&employee, id)
 	return employee, result.Error
 }
 

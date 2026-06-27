@@ -10,11 +10,11 @@ import (
 
 type EmployeeService struct {
 	repo    domain.EmployeeRepository
-	deptSvc *DepartmentService
-	posSvc  *PositionService
+	deptSvc domain.DepartmentService
+	posSvc  domain.PositionService
 }
 
-func NewEmployeeService(repo domain.EmployeeRepository, deptSvc *DepartmentService, posSvc *PositionService) *EmployeeService {
+func NewEmployeeService(repo domain.EmployeeRepository, deptSvc domain.DepartmentService, posSvc domain.PositionService) *EmployeeService {
 	return &EmployeeService{
 		repo:    repo,
 		deptSvc: deptSvc,

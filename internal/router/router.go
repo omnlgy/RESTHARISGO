@@ -31,3 +31,30 @@ func EmployeeRoutes(router *gin.Engine, controller *controller.EmployeeControlle
 	apiEmployees.DELETE("/:id", controller.DeleteEmployee)
 	apiEmployees.PUT("/:id", controller.UpdateEmployee)
 }
+
+func AttendanceRoutes(router *gin.Engine, controller *controller.AttendanceController) {
+	api := router.Group("/api")
+
+	api.POST("/attendance", controller.RecordAttendance)
+}
+
+func LeaveRoutes(router *gin.Engine, controller *controller.LeaveController) {
+	api := router.Group("/api")
+
+	api.POST("/leaves", controller.RequestLeave)
+	api.PATCH("/leaves/:id/approve", controller.ApproveLeave)
+}
+
+func PayrollRoutes(router *gin.Engine) {
+	api := router.Group("/api")
+
+	api.POST("/salaries/calculate")
+	api.GET("/salaries/period/:period")
+}
+
+func SalaryRoutes(router *gin.Engine) {
+	api := router.Group("/api/salaries")
+
+	api.GET("/period/:period")
+	api.POST("/calculate")
+}

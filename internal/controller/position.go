@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/omnlgy/RESTHARISGO/internal/domain"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
 	"github.com/omnlgy/RESTHARISGO/internal/repository"
-	"github.com/omnlgy/RESTHARISGO/internal/service"
 )
 
 type CreatePositionRequest struct {
@@ -16,10 +16,10 @@ type CreatePositionRequest struct {
 }
 
 type PositionController struct {
-	service *service.PositionService
+	service domain.PositionService
 }
 
-func NewPositionController(service *service.PositionService) *PositionController {
+func NewPositionController(service domain.PositionService) *PositionController {
 	return &PositionController{
 		service: service,
 	}

@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/omnlgy/RESTHARISGO/internal/domain"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
 	"github.com/omnlgy/RESTHARISGO/internal/repository"
-	"github.com/omnlgy/RESTHARISGO/internal/service"
 )
 
 type CreateEmployeeRequest struct {
@@ -20,10 +20,10 @@ type CreateEmployeeRequest struct {
 }
 
 type EmployeeController struct {
-	service *service.EmployeeService
+	service domain.EmployeeService
 }
 
-func NewEmployeeController(service *service.EmployeeService) *EmployeeController {
+func NewEmployeeController(service domain.EmployeeService) *EmployeeController {
 	return &EmployeeController{
 		service: service,
 	}
