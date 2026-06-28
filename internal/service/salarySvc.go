@@ -8,9 +8,9 @@ import (
 )
 
 type SalaryService struct {
-	repo        domain.SalaryRepository
+	repo           domain.SalaryRepository
 	attendanceRepo domain.AttendanceRepository
-	employeeRepo  domain.EmployeeRepository
+	employeeRepo   domain.EmployeeRepository
 }
 
 func NewSalaryService(repo domain.SalaryRepository, attendanceRepo domain.AttendanceRepository, employeeRepo domain.EmployeeRepository) *SalaryService {
@@ -57,9 +57,9 @@ func (s *SalaryService) CalculateSalary(employeeID uint, period string) (models.
 	baseSalary := employee.Position.BaseSalary
 
 	const (
-		attendanceBonus    = 50_000.0
-		latePenalty        = 20_000.0
-		absentPenalty      = 100_000.0
+		attendanceBonus = 50_000.0
+		latePenalty     = 20_000.0
+		absentPenalty   = 100_000.0
 	)
 
 	allowance := float64(presentDays) * attendanceBonus

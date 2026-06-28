@@ -45,16 +45,9 @@ func LeaveRoutes(router *gin.Engine, controller *controller.LeaveController) {
 	api.PATCH("/leaves/:id/approve", controller.ApproveLeave)
 }
 
-func PayrollRoutes(router *gin.Engine) {
-	api := router.Group("/api")
-
-	api.POST("/salaries/calculate")
-	api.GET("/salaries/period/:period")
-}
-
-func SalaryRoutes(router *gin.Engine) {
+func SalaryRoutes(router *gin.Engine, controller *controller.SalaryController) {
 	api := router.Group("/api/salaries")
 
-	api.GET("/period/:period")
-	api.POST("/calculate")
+	api.GET("/period/:period", controller.GetSaleryEmployeeByPeriod)
+	api.POST("/calculate", controller.CalculateSalary)
 }

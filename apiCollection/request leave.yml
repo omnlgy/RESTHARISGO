@@ -1,0 +1,24 @@
+info:
+  name: request leave
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: http://localhost:8080/api/leaves
+  body:
+    type: json
+    data: |-
+      {
+        "employeeId": 1,
+        "startDate": "2026-09-01",
+        "endDate": "2026-09-03",
+        "reason": "Sick leave"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

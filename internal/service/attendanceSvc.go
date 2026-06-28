@@ -20,13 +20,14 @@ func NewAttendanceService(repo domain.AttendanceRepository) *AttendanceService {
 
 func (s *AttendanceService) Attend(employeeId uint) error {
 	todayAtendance, err := s.repo.GetTodayAttendanceEmployee(employeeId)
-	isAttanded := !errors.Is(err, gorm.ErrRecordNotFound)
 
-	if err != nil && !isAttanded {
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return err
 	}
 
-	if isAttanded {
+	isCheckedIn := err == nil
+
+	if isCheckedIn {
 		todayAtendance.CheckOut = time.Now().Format("15:04")
 		if _, err := s.repo.Update(&todayAtendance); err != nil {
 			return err
@@ -37,9 +38,8 @@ func (s *AttendanceService) Attend(employeeId uint) error {
 		todayAtendance.CheckIn = time.Now().Format("15:04")
 
 		minimumTime := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 9, 0, 0, 0, time.Local)
-		// is now after 09:00?
 		if time.Now().After(minimumTime) {
-			todayAtendance.Status = "late"
+			todayAtendance.Status = "LATE"
 		}
 
 		if _, err := s.repo.Create(&todayAtendance); err != nil {

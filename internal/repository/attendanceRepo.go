@@ -18,7 +18,7 @@ func NewAttendanceRepository(db *gorm.DB) *AttendanceRepository {
 }
 
 func (r *AttendanceRepository) Create(attendance *models.Attendance) (models.Attendance, error) {
-	return models.Attendance{}, r.db.Create(attendance).Error
+	return *attendance, r.db.Create(attendance).Error
 }
 
 func (r *AttendanceRepository) GetByID(id uint) (models.Attendance, error) {
@@ -41,8 +41,8 @@ func (r *AttendanceRepository) GetByEmployeeIDPeriod(employeeID uint, period str
 	return attendances, r.db.Where("employee_id = ? AND date LIKE ?", employeeID, period+"%").Find(&attendances).Error
 }
 
-func (r *AttendanceRepository) Update(attendance models.Attendance) (models.Attendance, error) {
-	return models.Attendance{}, r.db.Save(&attendance).Error
+func (r *AttendanceRepository) Update(attendance *models.Attendance) (models.Attendance, error) {
+	return *attendance, r.db.Save(attendance).Error
 }
 
 func (r *AttendanceRepository) Delete(id uint) error {

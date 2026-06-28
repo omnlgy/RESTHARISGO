@@ -1,15 +1,15 @@
 package service
 
 import (
+	"github.com/omnlgy/RESTHARISGO/internal/domain"
 	"github.com/omnlgy/RESTHARISGO/internal/models"
-	"github.com/omnlgy/RESTHARISGO/internal/repository"
 )
 
 type LeaveService struct {
-	repo repository.LeaveRepository
+	repo domain.LeaveRepository
 }
 
-func NewLeaveService(repo repository.LeaveRepository) *LeaveService {
+func NewLeaveService(repo domain.LeaveRepository) *LeaveService {
 	return &LeaveService{
 		repo: repo,
 	}

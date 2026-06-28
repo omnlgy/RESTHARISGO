@@ -1,0 +1,22 @@
+info:
+  name: calculate salary
+  type: http
+  seq: 14
+
+http:
+  method: POST
+  url: http://localhost:8080/api/salaries/calculate
+  body:
+    type: json
+    data: |-
+      {
+        "employee_id": 2,
+        "period": "2026-06"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

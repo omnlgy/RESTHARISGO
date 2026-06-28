@@ -1,0 +1,21 @@
+info:
+  name: approve leave
+  type: http
+  seq: 13
+
+http:
+  method: PATCH
+  url: http://localhost:8080/api/leaves/1/approve
+  body:
+    type: json
+    data: |-
+      {
+        "status": "APPROVED"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
